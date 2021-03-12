@@ -23,11 +23,10 @@ ext {
 	set('springCloudVersion', "2020.0.1")
 }
 
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
 	//implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
-	implementation group: 'io.r2dbc', name: 'r2dbc-h2', version: '0.8.4.RELEASE'
-	implementation group: 'com.h2database', name: 'h2', version: '1.4.200'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
 	implementation "io.springfox:springfox-swagger2:${springfoxVersion}"
@@ -36,6 +35,11 @@ dependencies {
 	implementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	//MYSQL
+	implementation("dev.miku:r2dbc-mysql:0.8.1.RELEASE")
+	implementation("io.r2dbc:r2dbc-pool")
+	runtimeOnly("mysql:mysql-connector-java")
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
