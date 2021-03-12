@@ -19,17 +19,26 @@ repositories {
 }
 
 ext {
+	set('springfoxVersion', "2.10.0")
 	set('springCloudVersion', "2020.0.1")
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+	//implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+	implementation group: 'io.r2dbc', name: 'r2dbc-h2', version: '0.8.4.RELEASE'
+	implementation group: 'com.h2database', name: 'h2', version: '1.4.200'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+	implementation "io.springfox:springfox-swagger2:${springfoxVersion}"
+	implementation "io.springfox:springfox-swagger-ui:${springfoxVersion}"
+	implementation "io.springfox:springfox-spring-webflux:${springfoxVersion}"
+	implementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test'
 }
 
 dependencyManagement {
