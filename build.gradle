@@ -19,7 +19,6 @@ repositories {
 }
 
 ext {
-	set('springfoxVersion', "2.10.0")
 	set('springCloudVersion', "2020.0.1")
 }
 
@@ -29,17 +28,18 @@ dependencies {
 	//implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
-	implementation "io.springfox:springfox-swagger2:${springfoxVersion}"
-	implementation "io.springfox:springfox-swagger-ui:${springfoxVersion}"
-	implementation "io.springfox:springfox-spring-webflux:${springfoxVersion}"
-	implementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+	implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	//MYSQL
-	implementation("dev.miku:r2dbc-mysql:0.8.1.RELEASE")
-	implementation("io.r2dbc:r2dbc-pool")
-	runtimeOnly("mysql:mysql-connector-java")
+	// Database
+	runtimeOnly 'io.r2dbc:r2dbc-postgresql'
+	implementation 'io.r2dbc:r2dbc-pool'
+	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+	implementation 'javax.validation:validation-api:2.0.1.Final'
+	implementation 'io.r2dbc:r2dbc-proxy:0.8.2.RELEASE'
+	implementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'

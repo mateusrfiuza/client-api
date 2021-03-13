@@ -1,11 +1,11 @@
 version: '3'
 services:
-  location-services:
+  customer-api:
     build:
       dockerfile: ./Dockerfile
       context: .
-    image: mateusrfiuza/client-api
-    container_name: client-api
+    image: mateusrfiuza/customer-api
+    container_name: customer-api
     ports:
       - '8080:8080'
     networks:
@@ -15,14 +15,14 @@ services:
     depends_on:
       - mysql
   mysql:
-    image: mysql:5.6
+    image: mysql:8
     environment:
       MYSQL_ROOT_PASSWORD: "root"
       MYSQL_DATABASE: "challenge"
     ports:
       - "3306:3306"
     volumes:
-      - .init.sql:/docker-entrypoint-initdb.d/.init.sql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - production-network
 volumes:

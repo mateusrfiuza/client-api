@@ -1,5 +1,12 @@
 spring:
   r2dbc:
-    url: r2dbc:pool:mysql://127.0.0.1:3306/challenge
-    username: root
-    password: challenge
+    url: r2dbc:pool:postgres://127.0.0.1:5432/postgres
+    username: postgres
+    password: admin
+    pool:
+      initial-size: 100
+      max-size: 500
+      max-idle: 30m
+      validation-query: Select 1
+
+main.banner-mode: off
