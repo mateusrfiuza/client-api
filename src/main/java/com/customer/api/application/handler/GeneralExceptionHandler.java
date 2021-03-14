@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GeneralExceptionHandler {
 
     @ExceptionHandler(value = CustomerAlreadyRegisteredException.class)
-    protected ResponseEntity handleCustomerAlreadyRegistered(final CustomerAlreadyRegisteredException ex) {
+    protected ResponseEntity<ErrorResponse> handleCustomerAlreadyRegistered(final CustomerAlreadyRegisteredException ex) {
         final var apiError = new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
-        return new ResponseEntity(apiError, new HttpHeaders(), apiError.getStatus());
+        return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 
     @ExceptionHandler(value = CustomerNotFoundException.class)
-    protected ResponseEntity handleUnregisteredCustomer(final CustomerNotFoundException ex) {
+    protected ResponseEntity<ErrorResponse> handleUnregisteredCustomer(final CustomerNotFoundException ex) {
         final var apiError = new ErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());
-        return new ResponseEntity(apiError, new HttpHeaders(), apiError.getStatus());
+        return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 
 }

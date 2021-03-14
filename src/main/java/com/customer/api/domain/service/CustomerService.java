@@ -18,12 +18,14 @@ public class CustomerService {
     private final CustomerRepository repository;
 
     public Mono<Customer> create(final Customer customer) {
-        return checkCustomerExists(customer)
-                .then(this.repository.save(customer));
+        return repository.findByEmail(customer.getEmail())
+                .flatMap(result -> Mono.error(CustomerAlreadyRegisteredException::new))
+                .switchIfEmpty(repository.save(customer))
+                .cast(Customer.class);
     }
 
     public Mono<Customer> get(final UUID id) {
-        return this.repository.get(id)
+        return this.repository.findById(id)
                 .onErrorResume(throwable -> {
                     if (throwable instanceof RegisterNotFoundException) {
                         return Mono.error(CustomerNotFoundException::new);
@@ -33,18 +35,18 @@ public class CustomerService {
                 });
     }
 
+    public Mono<Void> update(final Customer customer, final UUID id) {
+        return this.get(id)
+                    .flatMap(result -> {
+                        result.setName(customer.getName());
+                        result.setEmail(customer.getEmail());
+                        return Mono.just(result);
+                    }).flatMap(repository::save).then();
+    }
+
     public Mono<Void> delete(final UUID id) {
         return this.repository.delete(id);
     }
 
-    private Mono<Void> checkCustomerExists(Customer customer) {
-        final var exists = this.repository.existsByEmail(customer.getEmail());
-        return exists.flatMap(aBoolean -> {
-            if (aBoolean) {
-                return Mono.error(CustomerAlreadyRegisteredException::new);
-            }
-            return null;
-        });
-    }
 
 }

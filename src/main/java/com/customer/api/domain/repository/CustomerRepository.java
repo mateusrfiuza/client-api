@@ -9,9 +9,9 @@ public interface CustomerRepository {
 
     Mono<Customer> save(Customer customer);
 
-    Mono<Customer> get(UUID id);
+    Mono<Customer> findById(UUID id);
 
-    Mono<Boolean> existsByEmail(String email);
+    Mono<Customer> findByEmail(String email);
 
     Mono<Void> delete(UUID id);
 

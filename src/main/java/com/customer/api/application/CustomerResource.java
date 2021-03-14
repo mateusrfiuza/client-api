@@ -1,7 +1,9 @@
 package com.customer.api.application;
 
 
+import com.customer.api.application.payload.CustomerBodyRequest;
 import com.customer.api.application.payload.CustomerResponse;
+import com.customer.api.domain.Customer;
 import com.customer.api.domain.service.CustomerService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import reactor.core.publisher.Mono;
@@ -19,6 +22,7 @@ import java.util.UUID;
 
 @RestController("/customers")
 @RequiredArgsConstructor
+@Validated
 public class CustomerResource {
 
     private final CustomerService service;
@@ -54,6 +58,21 @@ public class CustomerResource {
 
     }
 
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Update customer")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Operation performed successfully"),
+            @ApiResponse(code = 400, message = "Invalid input data"),
+            @ApiResponse(code = 404, message = "Customer Not Found")
+    })
+    public Mono<? extends ResponseEntity<?>> update(@RequestBody @Valid final CustomerBodyRequest customerBodyRequest, @PathVariable final UUID id) {
+        return service.update(customerBodyRequest.toDomain(), id)
+                .map(aVoid -> ResponseEntity
+                        .status(HttpStatus.NO_CONTENT)
+                        .build()
+                ).onErrorResume(Mono::error);
+    }
+
     @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
     @ApiOperation(value = "Delete customer")
     @ApiResponses(value = {
@@ -67,19 +86,5 @@ public class CustomerResource {
                         .build()
                 );
     }
-
-//    @PutMapping
-//    @ApiOperation(value = "Update customer")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "Account Found"),
-//            @ApiResponse(code = 400, message = "Invalid input data"),
-//            @ApiResponse(code = 404, message = "Account Not Found")
-//    })
-//    public Mono<ResponseEntity<Void>> update(@PathVariable final Long accountId) {
-//        return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .body(accountResponseMapper.from(accountService.getAccount(accountId)));
-//
-//    }
 
 }
