@@ -7,12 +7,14 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Data
-public class Product {
+public class WishlistProduct {
 
     private UUID id;
+    private UUID customerId;
     private String title;
     private String brand;
-    private String url;
+    private String image;
     private Double price;
-    private Double reviewScore;
+    private Double review;
+    private String productId;
 }

@@ -70,7 +70,7 @@ public class CustomerResource {
                 .map(aVoid -> ResponseEntity
                         .status(HttpStatus.NO_CONTENT)
                         .build()
-                ).onErrorResume(Mono::error);
+                );
     }
 
     @RequestMapping(value="/{id}", method=RequestMethod.DELETE)

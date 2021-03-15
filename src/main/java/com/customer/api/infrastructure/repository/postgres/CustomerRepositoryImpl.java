@@ -14,16 +14,16 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CustomerRepositoryImpl implements CustomerRepository {
 
-    private final CustomerDAO repository;
+    private final CustomerDAO dao;
 
     @Transactional
     public Mono<Customer> save(Customer customer) {
-        final var entity = this.repository.save(new CustomerEntity(customer));
+        final var entity = this.dao.save(new CustomerEntity(customer));
         return entity.map(CustomerEntity::toDomain);
     }
 
     public Mono<Customer> findById(UUID id) {
-        return this.repository
+        return this.dao
                 .findById(id)
                 .map(CustomerEntity::toDomain)
                 .switchIfEmpty(Mono.error(RegisterNotFoundException::new));
@@ -32,11 +32,11 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     @Override
     public Mono<Customer> findByEmail(String email) {
-        return this.repository.findByEmail(email)
+        return this.dao.findByEmail(email)
                 .map(CustomerEntity::toDomain);
     }
 
     public Mono<Void> delete(UUID id) {
-        return this.repository.deleteById(id);
+        return this.dao.deleteById(id);
     }
 }
