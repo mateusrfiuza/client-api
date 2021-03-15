@@ -1,7 +1,6 @@
 package com.customer.api.application;
 
 
-import com.customer.api.application.payload.CustomerResponse;
 import com.customer.api.application.payload.WishlistProductBodyRequest;
 import com.customer.api.application.payload.WishlistProductResponse;
 import com.customer.api.domain.service.WishlistService;
@@ -18,7 +17,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
-import java.time.Duration;
 import java.util.UUID;
 
 @RestController
@@ -32,14 +30,14 @@ public class WishlistResource {
 
 
     @PostMapping(value = DEFAULT_URI, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Create wishlist")
+    @ApiOperation(value = "Add an product in wishlist")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Created Account"),
             @ApiResponse(code = 400, message = "Invalid input data"),
             @ApiResponse(code = 409, message = "Account Already Registered")
     })
     public Mono<ResponseEntity<UUID>> create(@PathVariable("client-id") final UUID clientId, @RequestBody @Valid final WishlistProductBodyRequest request)   {
-        return service.create(clientId, request.getProductId())
+        return service.addProduct(clientId, request.getProductId())
                 .map(wishlistProduct -> ResponseEntity
                         .status(HttpStatus.CREATED)
                         .body(wishlistProduct.getId()));
@@ -47,7 +45,7 @@ public class WishlistResource {
     }
 
     @GetMapping(value = DEFAULT_URI)
-    @ApiOperation(value = "Get wishlist")
+    @ApiOperation(value = "Get wishlist products")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Operation performed successfully", response = WishlistProductResponse.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Invalid input data"),
@@ -58,18 +56,18 @@ public class WishlistResource {
                 .map(WishlistProductResponse::new);
     }
 
-//    @RequestMapping(method=RequestMethod.DELETE)
-//    @ApiOperation(value = "Delete item")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 204, message = "Operation performed successfully"),
-//            @ApiResponse(code = 400, message = "Invalid input data")
-//    })
-//    public Mono<ResponseEntity<Void>> delete(@PathVariable final UUID id) {
-//        return service.delete(id)
-//                .map(aVoid -> ResponseEntity
-//                        .status(HttpStatus.NO_CONTENT)
-//                        .build()
-//                );
-//    }
+    @RequestMapping(value = "/customers/wishlists/{id}", method=RequestMethod.DELETE)
+    @ApiOperation(value = "Remove an product in Wishlist")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Operation performed successfully"),
+            @ApiResponse(code = 400, message = "Invalid input data")
+    })
+    public Mono<ResponseEntity<Void>> delete(@PathVariable final UUID id) {
+        return service.delete(id)
+                .map(aVoid -> ResponseEntity
+                        .status(HttpStatus.NO_CONTENT)
+                        .build()
+                );
+    }
 
 }

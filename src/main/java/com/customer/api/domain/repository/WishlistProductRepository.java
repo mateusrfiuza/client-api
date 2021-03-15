@@ -6,7 +6,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
-public interface WishlistRepository {
+public interface WishlistProductRepository {
 
     Mono<WishlistProduct> save(UUID clientId, String productId);
 

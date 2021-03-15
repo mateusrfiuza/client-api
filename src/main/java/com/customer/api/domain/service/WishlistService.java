@@ -2,7 +2,7 @@ package com.customer.api.domain.service;
 
 import com.customer.api.domain.WishlistProduct;
 import com.customer.api.domain.repository.ProductRepository;
-import com.customer.api.domain.repository.WishlistRepository;
+import com.customer.api.domain.repository.WishlistProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -14,15 +14,19 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class WishlistService {
 
-    private final WishlistRepository wishlistRepository;
-    //private final ProductRepository productRepository;
+    private final WishlistProductRepository wishlistProductRepository;
+    private final ProductRepository productRepository;
 
-    public Mono<WishlistProduct> create(final UUID clientId, final String productId) {
-        return wishlistRepository.save(clientId, productId);
+    public Mono<WishlistProduct> addProduct(final UUID clientId, final String productId) {
+        return wishlistProductRepository.save(clientId, productId);
     }
 
     public Flux<WishlistProduct> getItems(UUID clientId) {
-        return wishlistRepository.findByCustomerId(clientId);
+        return wishlistProductRepository.findByCustomerId(clientId);
+    }
+
+    public Mono<Void> delete(UUID id) {
+        return wishlistProductRepository.deleteById(id);
     }
 
 
