@@ -2,7 +2,6 @@ package com.customer.api.infrastructure.repository.http;
 
 import com.customer.api.domain.Product;
 import com.customer.api.domain.repository.ProductRepository;
-import com.customer.api.domain.service.exception.ProductNotFoundException;
 import com.customer.api.infrastructure.repository.exception.RegisterNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -19,7 +18,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         return client.getProduct(id)
                 .onErrorResume(throwable -> {
                     if (throwable instanceof RegisterNotFoundException) {
-                        return Mono.error(ProductNotFoundException::new);
+                        return Mono.empty();
                     } else {
                         return Mono.error(throwable);
                     }
