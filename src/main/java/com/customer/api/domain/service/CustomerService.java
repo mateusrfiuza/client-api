@@ -23,8 +23,8 @@ public class CustomerService {
                 .then(repository.save(customer));
     }
 
-    public Mono<Customer> get(final UUID id) {
-        return this.repository.findById(id)
+    public Mono<Customer> get(final UUID customerId) {
+        return this.repository.findById(customerId)
                 .onErrorResume(throwable -> {
                     if (throwable instanceof RegisterNotFoundException) {
                         return Mono.error(CustomerNotFoundException::new);
@@ -34,17 +34,17 @@ public class CustomerService {
                 });
     }
 
-    public Mono<Void> update(final Customer customer, final UUID id) {
-        return this.get(id)
+    public Mono<Void> update(final Customer newCustomer, final UUID customerId) {
+        return this.get(customerId)
                     .flatMap(result -> {
-                        result.setName(customer.getName());
-                        result.setEmail(customer.getEmail());
+                        result.setName(newCustomer.getName());
+                        result.setEmail(newCustomer.getEmail());
                         return Mono.just(result);
                     }).flatMap(repository::save).then();
     }
 
-    public Mono<Void> delete(final UUID id) {
-        return this.repository.delete(id);
+    public Mono<Void> delete(final UUID customerId) {
+        return this.repository.delete(customerId);
     }
 
 
