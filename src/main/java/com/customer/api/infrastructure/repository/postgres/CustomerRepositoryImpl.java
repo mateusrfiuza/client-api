@@ -18,8 +18,8 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     @Transactional
     public Mono<Customer> save(Customer customer) {
-        final var entity = this.dao.save(new CustomerEntity(customer));
-        return entity.map(CustomerEntity::toDomain);
+        return this.dao.save(new CustomerEntity(customer))
+                .map(CustomerEntity::toDomain);
     }
 
     public Mono<Customer> findById(UUID id) {

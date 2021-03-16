@@ -3,7 +3,6 @@ package com.customer.api.application;
 
 import com.customer.api.application.payload.CustomerBodyRequest;
 import com.customer.api.application.payload.CustomerResponse;
-import com.customer.api.domain.Customer;
 import com.customer.api.domain.service.CustomerService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -12,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.ClientResponse;
@@ -34,7 +34,7 @@ public class CustomerResource {
             @ApiResponse(code = 400, message = "Invalid input data"),
             @ApiResponse(code = 409, message = "Account Already Registered")
     })
-    public Mono<ResponseEntity<UUID>> create(@RequestBody @Valid final CustomerBodyRequest request)   {
+    public Mono<ResponseEntity<UUID>> create(@Valid @RequestBody final CustomerBodyRequest request)   {
         return service.create(request.toDomain())
                 .map(customer -> ResponseEntity
                         .status(HttpStatus.CREATED)

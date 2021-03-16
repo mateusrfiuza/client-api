@@ -5,21 +5,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
+
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Valid
 public class CustomerBodyRequest {
 
-    @NotEmpty
+    @NotBlank
     private String name;
 
     @Email
-    @NotEmpty
+    @NotBlank
     private String email;
 
     public Customer toDomain() {
