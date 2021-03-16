@@ -11,6 +11,5 @@ spring:
         max-size: 500
       max-idle: 30m
       validation-query: Select 1
-
 product-api:
   url: http://challenge-api.luizalabs.com
