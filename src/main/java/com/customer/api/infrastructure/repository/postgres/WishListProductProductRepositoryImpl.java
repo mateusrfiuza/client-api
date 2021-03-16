@@ -29,6 +29,12 @@ public class WishListProductProductRepositoryImpl implements WishlistProductRepo
                 .map(WishlistProductEntity::toDomain);
     }
 
+    @Override
+    public Mono<WishlistProduct> findByCustomerIdAndProductId(UUID customerId, String productId) {
+        return dao.findByCustomerIdAndProductId(customerId, productId)
+                .map(WishlistProductEntity::toDomain);
+    }
+
     public Mono<Void> deleteById(UUID id) {
         return this.dao.deleteById(id);
     }

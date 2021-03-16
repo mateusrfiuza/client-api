@@ -10,7 +10,9 @@ public interface WishlistProductRepository {
 
     Mono<WishlistProduct> save(UUID clientId, String productId);
 
-    Flux<WishlistProduct> findByCustomerId(UUID id);
+    Flux<WishlistProduct> findByCustomerId(UUID customerId);
+
+    Mono<WishlistProduct> findByCustomerIdAndProductId(UUID customerId, String productId);
 
     Mono<Void> deleteById(UUID id);
 

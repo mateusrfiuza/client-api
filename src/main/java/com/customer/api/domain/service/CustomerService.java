@@ -20,8 +20,7 @@ public class CustomerService {
     public Mono<Customer> create(final Customer customer) {
         return repository.findByEmail(customer.getEmail())
                 .flatMap(result -> Mono.error(CustomerAlreadyRegisteredException::new))
-                .switchIfEmpty(repository.save(customer))
-                .cast(Customer.class);
+                .then(repository.save(customer));
     }
 
     public Mono<Customer> get(final UUID id) {

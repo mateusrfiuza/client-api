@@ -1,13 +1,16 @@
+main.banner-mode: off
+server.port: 8081
+
 spring:
-  r2dbc:
-    url: r2dbc:pool:postgres://127.0.0.1:5432/postgres
-    username: postgres
-    password: admin
-    pool:
-      initial-size: 100
-      max-size: 500
+    r2dbc:
+      url: r2dbc:pool:postgres://127.0.0.1:5432/postgres
+      username: postgres
+      password: admin
+      pool:
+        initial-size: 100
+        max-size: 500
       max-idle: 30m
       validation-query: Select 1
 
-main.banner-mode: off
-server.port: 8081
+product-api:
+  url: http://challenge-api.luizalabs.com
