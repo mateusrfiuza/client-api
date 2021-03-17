@@ -11,10 +11,10 @@ services:
     networks:
       - production-network
     links:
-      - postgres
+      - db
     depends_on:
-      - postgres
-  postgres:
+      - db
+  db:
     image: postgres:11-alpine
     environment:
       POSTGRES_PASSWORD: "admin"

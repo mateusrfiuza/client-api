@@ -32,6 +32,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.4.3'
 
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.4.3'
 
 	// Database
 	runtimeOnly 'io.r2dbc:r2dbc-postgresql'

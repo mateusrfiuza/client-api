@@ -2,7 +2,7 @@ main.banner-mode: off
 
 spring:
     r2dbc:
-      url: r2dbc:pool:postgres://postgres:5432/postgres
+      url: r2dbc:pool:postgres://127.0.0.1:5432/postgres
       username: postgres
       password: admin
       pool:
