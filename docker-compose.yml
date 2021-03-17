@@ -12,7 +12,6 @@ services:
       - production-network
     links:
       - postgres
-      - redis
     depends_on:
       - postgres
   postgres:
