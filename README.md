@@ -1,5 +1,5 @@
 # Customer API
-=================
+
 
 ### Dependencies
 * JDK 15
