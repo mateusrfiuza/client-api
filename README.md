@@ -1,8 +1,6 @@
 # Customer API
 =================
 
-
-
 ### Dependencies
 * JDK 15
 * Docker
@@ -25,6 +23,13 @@
     2. Run on Docker
         1. Run docker compose
         ```
-        docker compose up
+        docker-compose up
         ```
+        
+#### Accessing swagger documentation
+* URL: http://localhost:8080/swagger-ui/
+        ```
+        username: admin
+        password: admin
+       ```     
     
