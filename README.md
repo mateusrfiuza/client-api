@@ -27,9 +27,11 @@
         ```
         
 #### Accessing swagger documentation
-* URL: http://localhost:8080/swagger-ui/
-        ```
-        username: admin
-        password: admin
-       ```     
+* URL: `http://localhost:8080/swagger-ui/`
+
+##### Credentials
+username: admin
+
+password: admin
+            
     
