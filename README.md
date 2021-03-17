@@ -26,7 +26,6 @@
         docker-compose up
         ```
     
-
 #### Basic Authentication
 - username: admin
 - password: admin    
@@ -37,6 +36,4 @@
 #### Evolutions
 * Add redis cache to save wishlist
 * Add logs
-
-            
-    
+* Endpoint security adjustments
