@@ -28,9 +28,8 @@
     
 
 #### Basic Authentication
-username: admin
-
-password: admin    
+- username: admin
+- password: admin    
     
 #### Accessing API documentation
 * URL: `http://localhost:8080/swagger-ui/`
