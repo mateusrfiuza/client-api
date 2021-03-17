@@ -36,6 +36,7 @@
 
 #### Evolutions
 * Add redis cache to save wishlist
+* Adding logs.
 
             
     
