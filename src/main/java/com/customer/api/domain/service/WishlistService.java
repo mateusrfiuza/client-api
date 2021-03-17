@@ -29,6 +29,7 @@ public class WishlistService {
                 .then(wishlistProductRepository.save(customerId, productId));
     }
 
+    // TODO - NEXT UPGRADE, ADD REDIS TO RETURN WISHLIST
     public Flux<WishlistProduct> getItems(final UUID clientId) {
         return wishlistProductRepository.findByCustomerId(clientId)
                 .parallel()

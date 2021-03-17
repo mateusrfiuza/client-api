@@ -48,8 +48,7 @@ public class WishlistResource {
     @ApiOperation(value = "Get wishlist products")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Operation performed successfully", response = WishlistProductResponse.class, responseContainer = "List"),
-            @ApiResponse(code = 400, message = "Invalid input data"),
-            @ApiResponse(code = 404, message = "Customer Not Found")
+            @ApiResponse(code = 400, message = "Invalid input data")
     })
     public Flux<WishlistProductResponse> getItems(@PathVariable("client-id") final UUID clientId) {
         return service.getItems(clientId)

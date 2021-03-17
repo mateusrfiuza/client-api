@@ -34,11 +34,11 @@ public class CustomerResource {
             @ApiResponse(code = 400, message = "Invalid input data"),
             @ApiResponse(code = 409, message = "Account Already Registered")
     })
-    public Mono<ResponseEntity<UUID>> create(@Valid @RequestBody final CustomerBodyRequest request)   {
+    public Mono<ResponseEntity<CustomerResponse>> create(@Valid @RequestBody final CustomerBodyRequest request)   {
         return service.create(request.toDomain())
                 .map(customer -> ResponseEntity
                         .status(HttpStatus.CREATED)
-                        .body(customer.getId()));
+                        .body(new CustomerResponse(customer)));
 
     }
 
