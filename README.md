@@ -26,7 +26,7 @@
         docker-compose up
         ```
         
-#### Accessing swagger documentation
+#### Accessing API documentation
 * URL: `http://localhost:8080/swagger-ui/`
 
 ##### Credentials
