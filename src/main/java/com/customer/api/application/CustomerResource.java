@@ -65,7 +65,7 @@ public class CustomerResource {
             @ApiResponse(code = 400, message = "Invalid input data"),
             @ApiResponse(code = 404, message = "Customer Not Found")
     })
-    public Mono<? extends ResponseEntity<?>> update(@RequestBody @Valid final CustomerBodyRequest customerBodyRequest, @PathVariable final UUID id) {
+    public Mono<ResponseEntity<Void>> update(@RequestBody @Valid final CustomerBodyRequest customerBodyRequest, @PathVariable final UUID id) {
         return service.update(customerBodyRequest.toDomain(), id)
                 .map(aVoid -> ResponseEntity
                         .status(HttpStatus.NO_CONTENT)
