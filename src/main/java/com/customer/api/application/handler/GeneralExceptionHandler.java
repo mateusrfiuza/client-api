@@ -40,9 +40,9 @@ public class GeneralExceptionHandler {
 
     private ErrorResponse processFieldErrors(final List<FieldError> fieldErrors) {
         final var error = new ErrorResponse(HttpStatus.BAD_REQUEST, "validation error");
-        fieldErrors.forEach((fieldError) -> {
-            error.addFieldError(fieldError.getField(), fieldError.getDefaultMessage());
-        });
+        fieldErrors.forEach(fieldError ->
+            error.addFieldError(fieldError.getField(), fieldError.getDefaultMessage())
+        );
 
         return error;
     }

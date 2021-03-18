@@ -79,6 +79,7 @@ public class CustomerResource {
             @ApiResponse(code = 204, message = "Operation performed successfully"),
             @ApiResponse(code = 400, message = "Invalid input data")
     })
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<ResponseEntity<Void>> delete(@PathVariable final UUID id) {
         return service.delete(id)
                 .map(aVoid -> ResponseEntity
