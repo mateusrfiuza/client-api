@@ -55,12 +55,13 @@ public class WishlistResource {
                 .map(WishlistProductResponse::new);
     }
 
-    @RequestMapping(value = "/customers/wishlists/{id}", method=RequestMethod.DELETE)
+    @DeleteMapping(value = "/customers/wishlists/{id}")
     @ApiOperation(value = "Remove an product in Wishlist")
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Operation performed successfully"),
             @ApiResponse(code = 400, message = "Invalid input data")
     })
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<ResponseEntity<Void>> delete(@PathVariable final UUID id) {
         return service.delete(id)
                 .map(aVoid -> ResponseEntity

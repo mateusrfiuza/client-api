@@ -73,7 +73,7 @@ public class CustomerResource {
                 );
     }
 
-    @RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     @ApiOperation(value = "Delete customer")
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Operation performed successfully"),
