@@ -1,7 +1,7 @@
 package com.customer.api.infrastructure.repository.postgres;
 
 import com.customer.api.domain.WishlistProduct;
-import com.customer.api.domain.repository.WishlistProductRepository;
+import com.customer.api.domain.repository.WishlistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
-public class WishListProductProductRepositoryImpl implements WishlistProductRepository {
+public class WishListRepositoryImpl implements WishlistRepository {
 
     private final WishlistProductDAO dao;
 

@@ -52,7 +52,7 @@ public class CustomerResource {
     public Mono<ResponseEntity<CustomerResponse>> get(@PathVariable final UUID id) {
         return service.get(id)
                 .map(customer -> ResponseEntity
-                        .status(HttpStatus.CREATED)
+                        .status(HttpStatus.OK)
                         .body(new CustomerResponse(customer))
                 );
 

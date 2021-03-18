@@ -10,7 +10,7 @@ import org.springframework.data.relational.core.mapping.Table;
 import java.io.Serializable;
 import java.util.UUID;
 
-@Table(value = "challenge.customer")
+@Table(value = "customer")
 @Data
 @NoArgsConstructor
 public class CustomerEntity implements Serializable {

@@ -32,7 +32,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.4.3'
 
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.4.3'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	// Database
 	runtimeOnly 'io.r2dbc:r2dbc-postgresql'
@@ -40,9 +40,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
 	implementation 'io.r2dbc:r2dbc-proxy:0.8.2.RELEASE'
 
-
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// Tests
 	testImplementation 'io.projectreactor:reactor-test'
+	testImplementation "junit:junit"
+	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
 }
 
 dependencyManagement {
@@ -53,4 +57,5 @@ dependencyManagement {
 
 test {
 	useJUnitPlatform()
+	systemProperty 'spring.profiles.active', "test"
 }

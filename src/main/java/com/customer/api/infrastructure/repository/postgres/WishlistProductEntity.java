@@ -10,7 +10,7 @@ import org.springframework.data.relational.core.mapping.Table;
 import java.io.Serializable;
 import java.util.UUID;
 
-@Table(value = "challenge.wishlist_product")
+@Table(value = "wishlist_product")
 @Data
 @NoArgsConstructor
 public class WishlistProductEntity implements Serializable {

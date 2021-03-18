@@ -3,7 +3,7 @@ package com.customer.api.domain.service;
 import com.customer.api.domain.Product;
 import com.customer.api.domain.WishlistProduct;
 import com.customer.api.domain.repository.ProductRepository;
-import com.customer.api.domain.repository.WishlistProductRepository;
+import com.customer.api.domain.repository.WishlistRepository;
 import com.customer.api.domain.service.exception.ProductAlreadyRegisteredException;
 import com.customer.api.domain.service.exception.ProductNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class WishlistService {
 
-    private final WishlistProductRepository wishlistProductRepository;
+    private final WishlistRepository wishlistRepository;
     private final ProductRepository productRepository;
     private final CustomerService customerService;
 
@@ -26,12 +26,12 @@ public class WishlistService {
         return customerService.get(customerId)
                 .then(checkProductExists(productId))
                 .then(checkProductAlreadyRegistered(customerId, productId))
-                .then(wishlistProductRepository.save(customerId, productId));
+                .then(wishlistRepository.save(customerId, productId));
     }
 
     // TODO - NEXT UPGRADE, ADD REDIS TO RETURN WISHLIST
     public Flux<WishlistProduct> getItems(final UUID clientId) {
-        return wishlistProductRepository.findByCustomerId(clientId)
+        return wishlistRepository.findByCustomerId(clientId)
                 .parallel()
                 .flatMap(wishlistProduct -> getAdditionalInformation(wishlistProduct).zipWith(Mono.just(wishlistProduct))
                 .filter(result -> Objects.nonNull(result.getT1().getId()))
@@ -40,7 +40,7 @@ public class WishlistService {
     }
 
     public Mono<Void> delete(final UUID id) {
-        return wishlistProductRepository.deleteById(id);
+        return wishlistRepository.deleteById(id);
     }
 
     public Mono<Void> checkProductExists(final String productId) {
@@ -50,13 +50,14 @@ public class WishlistService {
     }
 
     public Mono<Void> checkProductAlreadyRegistered(final UUID customerId, final String productId) {
-        return wishlistProductRepository.findByCustomerIdAndProductId(customerId, productId)
-                .flatMap(result -> Mono.error(ProductAlreadyRegisteredException::new));
+        return wishlistRepository.findByCustomerIdAndProductId(customerId, productId)
+                .flatMap(result -> Mono.error(ProductAlreadyRegisteredException::new))
+                .then();
     }
 
     public Mono<Product> getAdditionalInformation(final WishlistProduct wishlistProduct) {
         return productRepository.findById(wishlistProduct.getProductId())
-                .switchIfEmpty(wishlistProductRepository.deleteById(wishlistProduct.getId()).thenReturn(new Product()));
+                .switchIfEmpty(wishlistRepository.deleteById(wishlistProduct.getId()).thenReturn(new Product()));
     }
 
     public Mono<WishlistProduct> addComplementaryInfo(final WishlistProduct wishlistProduct, final Product product) {
