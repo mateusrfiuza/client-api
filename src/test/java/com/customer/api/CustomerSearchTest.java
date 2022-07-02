@@ -3,7 +3,7 @@ package com.customer.api;
 
 import com.customer.api.domain.Customer;
 import com.customer.api.domain.repository.CustomerRepository;
-import com.customer.api.infrastructure.repository.exception.RegisterNotFoundException;
+import com.customer.api.dataprovider.repository.exception.RegisterNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;

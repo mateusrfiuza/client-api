@@ -4,7 +4,7 @@ import com.customer.api.domain.Customer;
 import com.customer.api.domain.repository.CustomerRepository;
 import com.customer.api.domain.service.exception.CustomerAlreadyRegisteredException;
 import com.customer.api.domain.service.exception.CustomerNotFoundException;
-import com.customer.api.infrastructure.repository.exception.RegisterNotFoundException;
+import com.customer.api.dataprovider.repository.exception.RegisterNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
