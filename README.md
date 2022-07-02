@@ -2,7 +2,7 @@
 
 
 ### Dependencies
-* JDK 15
+* JDK 17
 * Docker
 
 ### How to run tests
