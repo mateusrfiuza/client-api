@@ -33,7 +33,7 @@ public class CustomerSearchTest {
 
     @Test
     @WithMockUser
-    public void customer_not_registered() {
+    public void should_return_404_when_not_find_a_customer() {
 
         //Given
         Mockito
@@ -53,7 +53,7 @@ public class CustomerSearchTest {
 
     @Test
     @WithMockUser
-    public void customer_registered() {
+    public void should_return_200_for_a_valid_request() {
 
         //Given
         var customer = new Customer(UUID.fromString("0fea3a30-d699-440e-9309-0e513193db5e"),"mateus@mail.com", "Mateus");
