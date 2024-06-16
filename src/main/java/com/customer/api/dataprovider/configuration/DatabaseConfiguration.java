@@ -15,8 +15,8 @@ import org.springframework.transaction.reactive.TransactionalOperator;
 public class DatabaseConfiguration {
 
     @Bean
-    public TransactionalOperator transactionalOperator(final ReactiveTransactionManager txm){
-        return TransactionalOperator.create(txm);
+    public TransactionalOperator transactionalOperator(final ReactiveTransactionManager reactiveTransactionManager){
+        return TransactionalOperator.create(reactiveTransactionManager);
     }
 
     @Bean

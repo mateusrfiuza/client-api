@@ -24,8 +24,8 @@ public class WishlistService {
 
     public Mono<WishlistProduct> addProduct(final UUID customerId, final String productId) {
         return customerService.get(customerId)
-                .then(checkProductExists(productId))
-                .then(checkProductAlreadyRegistered(customerId, productId))
+                .then(validateProductExists(productId))
+                .then(validateProductAlreadyRegistered(customerId, productId))
                 .then(wishlistRepository.save(customerId, productId));
     }
 
@@ -33,7 +33,7 @@ public class WishlistService {
     public Flux<WishlistProduct> getItems(final UUID clientId) {
         return wishlistRepository.findByCustomerId(clientId)
                 .parallel()
-                .flatMap(wishlistProduct -> getAdditionalInformation(wishlistProduct).zipWith(Mono.just(wishlistProduct))
+                .flatMap(wishlistProduct -> getProductAdditionalInformation(wishlistProduct).zipWith(Mono.just(wishlistProduct))
                 .filter(result -> Objects.nonNull(result.getT1().getId()))
                 .flatMap(tuple -> addComplementaryInfo(tuple.getT2(), tuple.getT1())))
                 .sequential();
@@ -43,24 +43,24 @@ public class WishlistService {
         return wishlistRepository.deleteById(id);
     }
 
-    public Mono<Void> checkProductExists(final String productId) {
+    public Mono<Void> validateProductExists(final String productId) {
         return productRepository.findById(productId)
                 .switchIfEmpty(Mono.error(ProductNotFoundException::new))
                 .then();
     }
 
-    public Mono<Void> checkProductAlreadyRegistered(final UUID customerId, final String productId) {
+    public Mono<Void> validateProductAlreadyRegistered(final UUID customerId, final String productId) {
         return wishlistRepository.findByCustomerIdAndProductId(customerId, productId)
                 .flatMap(result -> Mono.error(ProductAlreadyRegisteredException::new))
                 .then();
     }
 
-    public Mono<Product> getAdditionalInformation(final WishlistProduct wishlistProduct) {
+    private Mono<Product> getProductAdditionalInformation(final WishlistProduct wishlistProduct) {
         return productRepository.findById(wishlistProduct.getProductId())
                 .switchIfEmpty(wishlistRepository.deleteById(wishlistProduct.getId()).thenReturn(new Product()));
     }
 
-    public Mono<WishlistProduct> addComplementaryInfo(final WishlistProduct wishlistProduct, final Product product) {
+    private Mono<WishlistProduct> addComplementaryInfo(final WishlistProduct wishlistProduct, final Product product) {
         return Mono.fromCallable(() -> {
                 wishlistProduct.setProductId(product.getId());
                 wishlistProduct.setPrice(product.getPrice());

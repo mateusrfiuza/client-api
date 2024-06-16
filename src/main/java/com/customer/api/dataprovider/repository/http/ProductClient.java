@@ -24,7 +24,7 @@ public class ProductClient {
         return productReactiveClient
                 .get()
                 .uri(uriBuilder -> uriBuilder
-                        .path(SESSION_QUERY + productId + "/")
+                        .path(SESSION_QUERY + productId)
                         .build())
                 .retrieve()
                 .onStatus(HttpStatus.NOT_FOUND::equals,
@@ -32,7 +32,7 @@ public class ProductClient {
                 .bodyToMono(Product.class)
                 .timeout(Duration.ofMillis(3000))
                 .doOnNext(value -> log.info("M=getProduct productId={} response={}", productId, value))
-                .doOnError(error -> log.error("M=getProduct productId={}", productId, error));
+                .doOnError(error -> log.error("M=getProduct productId={} error={}", productId, error.getMessage(), error));
     }
 
 }

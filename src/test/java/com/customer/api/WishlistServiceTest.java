@@ -43,7 +43,7 @@ public class WishlistServiceTest {
         when(wishlistRepository.findByCustomerIdAndProductId(any(), any())).thenReturn(Mono.just(new WishlistProduct()));
 
         // When
-        var mono = wishlistService.checkProductAlreadyRegistered(UUID.randomUUID(), "teste");
+        var mono = wishlistService.validateProductAlreadyRegistered(UUID.randomUUID(), "test");
 
         // Then
         StepVerifier.create(mono)

@@ -17,11 +17,13 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     private final CustomerDAO dao;
 
     @Transactional
+    @Override
     public Mono<Customer> save(Customer customer) {
         return this.dao.save(new CustomerEntity(customer))
                 .map(CustomerEntity::toDomain);
     }
 
+    @Override
     public Mono<Customer> findById(UUID id) {
         return this.dao
                 .findById(id)
@@ -36,6 +38,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                 .map(CustomerEntity::toDomain);
     }
 
+    @Override
     public Mono<Void> delete(UUID id) {
         return this.dao.deleteById(id);
     }

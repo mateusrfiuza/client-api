@@ -25,13 +25,7 @@ public class CustomerService {
 
     public Mono<Customer> get(final UUID customerId) {
         return this.repository.findById(customerId)
-                .onErrorResume(throwable -> {
-                    if (throwable instanceof RegisterNotFoundException) {
-                        return Mono.error(CustomerNotFoundException::new);
-                    } else {
-                        return Mono.error(throwable);
-                    }
-                });
+                .onErrorMap(RegisterNotFoundException.class, e -> new CustomerNotFoundException());
     }
 
     public Mono<Void> update(final Customer newCustomer, final UUID customerId) {

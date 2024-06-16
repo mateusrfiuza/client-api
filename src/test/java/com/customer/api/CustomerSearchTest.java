@@ -36,18 +36,17 @@ public class CustomerSearchTest {
     public void should_return_404_when_not_find_a_customer() {
 
         //Given
-        Mockito
-                .when(repository.findById(any()))
+        final var not_registered_customer = "0fea3a30-d699-440e-9309-0e513193db5e";
+        Mockito.when(repository.findById(any()))
                 .thenReturn(Mono.error(RegisterNotFoundException::new));
 
         // When
         var response = client.get()
-                .uri("/customers/0fea3a30-d699-440e-9309-0e513193db5e")
+                .uri("/customers/"+not_registered_customer)
                 .exchange();
 
         // Then
-        response
-                .expectStatus()
+        response.expectStatus()
                 .isNotFound();
     }
 
@@ -56,25 +55,24 @@ public class CustomerSearchTest {
     public void should_return_200_for_a_valid_request() {
 
         //Given
-        var customer = new Customer(UUID.fromString("0fea3a30-d699-440e-9309-0e513193db5e"),"mateus@mail.com", "Mateus");
+        final var registered_customer = "48a21277-d9a8-4854-a178-c20cc7d00f80";
+        var customer = new Customer(UUID.fromString(registered_customer), "mateus@mail.com", "Mateus");
         var monoResult = Mono.just(customer);
-        Mockito
-                .when(repository.findById(any()))
+        Mockito.when(repository.findById(any()))
                 .thenReturn(monoResult);
 
         // When
         var response = client.get()
-                .uri("/customers/0fea3a30-d699-440e-9309-0e513193db5e")
+                .uri("/customers/"+registered_customer)
                 .exchange();
 
         // Then
-        response
-            .expectStatus()
-            .is2xxSuccessful()
-            .expectBody()
-            .jsonPath("$.id").isEqualTo(customer.getId().toString())
-            .jsonPath("$.email").isEqualTo(customer.getEmail())
-            .jsonPath("$.name").isEqualTo(customer.getName());
+        response.expectStatus()
+                .is2xxSuccessful()
+                .expectBody()
+                .jsonPath("$.id").isEqualTo(customer.getId().toString())
+                .jsonPath("$.email").isEqualTo(customer.getEmail())
+                .jsonPath("$.name").isEqualTo(customer.getName());
     }
 
 }
